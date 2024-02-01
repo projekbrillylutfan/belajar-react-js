@@ -1,38 +1,28 @@
-// import { useState } from 'react'
-// import './App.css'
-import PropTypes from 'prop-types';
+import ErrorPage from "./Pages/404";
+import Login from "./Pages/login";
+import Register from "./Pages/register";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const Button = ({variant = 'bg-black', children}) => {
-  return (
-    <button
-      className={`h-10 px-6 font-semibold rounded-md ${variant} text-white`}
-      type="submit"
-    >
-      {children}
-    </button>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <div>home</div>,
+    errorElement: <ErrorPage />,
+  },
+
+  {
+    path: "/register",
+    element: <Register />,
+  },
+
+  {
+    path: "/login",
+    element: <Login />,
+  }
+])
 
 function App() {
-  // const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div className="flex justify-center bg-blue-300 min-h-screen items-center">
-        <div className="flex gap-x-3">
-          <Button variant="bg-red-500">ayam</Button>
-          <Button variant="bg-black">ikan</Button>
-          <Button>kambing</Button>
-          
-        </div>
-      </div>
-    </>
-  );
+  return <RouterProvider router={router} />
 }
-
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  variant: PropTypes.node.isRequired
-};
 
 export default App;

@@ -2,7 +2,7 @@ import Button from "../Elements/Button";
 const CardProducts = (props) => {
   const { children } = props;
   return (
-    <div className="w-full max-w-sm bg-sky-500 border border-gray-200 rounded-lg shadow mx-2 flex flex-col justify-between">
+    <div className="w-full max-w-xs bg-sky-500 border border-gray-200 rounded-lg shadow mx-2 my-2 flex flex-col justify-between">
       {children}
     </div>
   );
@@ -22,12 +22,12 @@ const Header = (props) => {
 };
 
 const Body = (props) => {
-  const { children, title } = props;
+  const { children, name } = props;
   return (
     <div className="px-7 pb-5 h-full">
       <a href="#">
         <h5 className="text-xl font-semibold tracking-tight text-white">
-          {title}
+          {name}
         </h5>
         <p className="text-m text-white text-justify">{children}</p>
       </a>
@@ -36,11 +36,13 @@ const Body = (props) => {
 };
 
 const Footer = (props) => {
-  const { price } = props;
+  const { price, handleAddToCart, id } = props;
   return (
-    <div className="flex items-center justify-between px-7 pb-5">
-      <span className="text-xl font-bold text-white">Rp. {price}</span>
-      <Button classname="bg-green-500 hover:bg-green-700">Add To Cart</Button>
+    <div className="flex items-center justify-between px-2 pb-5">
+      <span className="text-xl font-bold text-white">
+        {price.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
+      </span>
+      <Button onClick={() => handleAddToCart(id)} classname="bg-green-500 hover:bg-green-700">Add To Cart</Button>
     </div>
   );
 };

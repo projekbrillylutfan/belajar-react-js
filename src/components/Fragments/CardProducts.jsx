@@ -2,7 +2,7 @@ import Button from "../Elements/Button";
 const CardProducts = (props) => {
   const { children } = props;
   return (
-    <div className="w-full max-w-sm bg-sky-500 border border-gray-200 rounded-lg shadow mx-2">
+    <div className="w-full max-w-sm bg-sky-500 border border-gray-200 rounded-lg shadow mx-2 flex flex-col justify-between">
       {children}
     </div>
   );
@@ -24,12 +24,12 @@ const Header = (props) => {
 const Body = (props) => {
   const { children, title } = props;
   return (
-    <div className="px-7 pb-5">
+    <div className="px-7 pb-5 h-full">
       <a href="#">
         <h5 className="text-xl font-semibold tracking-tight text-white">
           {title}
         </h5>
-        <p className="text-m text-white">{children}</p>
+        <p className="text-m text-white text-justify">{children}</p>
       </a>
     </div>
   );

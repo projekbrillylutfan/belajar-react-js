@@ -20,7 +20,7 @@ const AuthLayouts = ({ children, title, type }) => {
     return (
       <p className="text-sm mt-5 text-center">
         Already have an account?{" "}
-        <Link to={"/login"} className="font-bold text-blue-600">
+        <Link to={"/"} className="font-bold text-blue-600">
           Sign In
         </Link>
       </p>

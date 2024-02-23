@@ -51,7 +51,7 @@ const Products = () => {
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   const handleAddToCart = (id) => {

@@ -1,53 +1,45 @@
 import Button from "../components/Elements/Button";
 import CardProducts from "../components/Fragments/CardProducts";
 import { useEffect, useState } from "react";
+import getProducts from "../services/product.service";
 
-const products = [
-  {
-    id: 1,
-    name: "Sepatu Baru",
-    price: 100000,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    id: 2,
-    name: "Sepatu Lama",
-    price: 2000000,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  {
-    id: 3,
-    name: "Baju Polos",
-    price: 50000,
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-  },
-  // Anda dapat terus menambahkan produk lainnya
-];
+
 
 const email = localStorage.getItem("email");
 
 const Products = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
 
   useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    });
+  })
+
+  useEffect(() => {
     const total = () => {
-      if (cart.length > 0) {
+      if (products.length > 0 && cart.length > 0) {
         const sum = cart.reduce((acc, item) => {
           const product = products.find((product) => product.id === item.id);
-          return acc + product.price * item.qty;
+          if (product) { // Pengecekan keamanan
+            return acc + product.price * item.qty;
+        } else {
+            console.error(`Product with id ${item.id} not found.`);
+            return acc;
+        }
         }, 0);
         setTotal(sum);
         localStorage.setItem("cart", JSON.stringify(cart));
       }
     };
-    
     total();
-  }, [cart]);
+  }, [cart, products]);
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
@@ -65,6 +57,8 @@ const Products = () => {
       setCart([...cart, { qty: 1, id }]);
     }
   };
+
+
   return (
     <>
       <div className="flex items-center justify-end bg-sky-400 rounded-lg mb-5 p-3 text-black gap-2">
@@ -78,12 +72,12 @@ const Products = () => {
       </div>
       <div className="flex justify-center">
         <div className="flex w-4/6 flex-wrap">
-          {products.map((product) => (
+          {products.length > 0 && products.map((product) => (
             <div className="" key={product.id}>
               <CardProducts>
-                <CardProducts.Header src="/images/shoes.jpg" />
-                <CardProducts.Body name={product.name}>
-                  {product.desc}
+                <CardProducts.Header src={product.image} />
+                <CardProducts.Body name={product.title}>
+                  {product.description}
                 </CardProducts.Body>
                 <CardProducts.Footer
                   id={product.id}
@@ -100,6 +94,7 @@ const Products = () => {
           <table className="text-left table-auto border-separate border-spacing-x-2">
             <thead>
               <tr>
+              <th>No</th>
                 <th>product</th>
                 <th>price</th>
                 <th>Quantity</th>
@@ -107,7 +102,7 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => {
+              {products.length > 0 && cart.map((item, index) => {
                 const product = products.find(
                   (product) => product.id === item.id
                 );
@@ -116,31 +111,32 @@ const Products = () => {
                 }
                 return (
                   <tr key={item.id}>
-                    <td>{product.name}</td>
+                    <td>{index + 1}</td>
+                    <td>{product.title.substring(0, 20)}</td>
                     <td>
                       {product.price.toLocaleString("id-ID", {
                         style: "currency",
-                        currency: "IDR",
+                        currency: "USD",
                       })}
                     </td>
                     <td>{item.qty}</td>
                     <td>
                       {(item.qty * product.price).toLocaleString("id-ID", {
                         style: "currency",
-                        currency: "IDR",
+                        currency: "USD",
                       })}
                     </td>
                   </tr>
                 );
               })}
               <tr>
-                <td colSpan={3} className="font-bold">
+                <td colSpan={4} className="font-bold">
                   Price Total
                 </td>
                 <td className="font-bold">
                   {total.toLocaleString("id-ID", {
                     style: "currency",
-                    currency: "IDR",
+                    currency: "USD",
                   })}
                 </td>
               </tr>

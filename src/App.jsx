@@ -2,6 +2,7 @@ import ErrorPage from "./Pages/404";
 import Login from "./Pages/login";
 import Products from "./Pages/products";
 import Register from "./Pages/register";
+import DetailProduct from "./Pages/detailProduct";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: "/products",
     element: <Products />,
+  },
+
+  {
+    path: "/products/:id",
+    element: <DetailProduct />,
   }
 ])
 
